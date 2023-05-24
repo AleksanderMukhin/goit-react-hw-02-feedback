@@ -5,3 +5,8 @@ margin-right: 10px;
 button::first-letter {
   text-transform: uppercase;
 }
+
+ul {
+  list-style: none;
+  margin-bottom: 10px;
+}

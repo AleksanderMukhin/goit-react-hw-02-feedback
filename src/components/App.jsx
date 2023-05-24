@@ -17,12 +17,20 @@ class App extends Component {
     this.setState(prevState => ({ [name]: prevState[name] + 1 }));
   };
 
+  // const stat = { ...this.state };
+
+  countTotalFeedback = (good, neutral, bad) => bad + good + neutral;
+
+  countPositiveFeedbackPercentage = (total, good) =>
+    total ? Math.round((good / total) * 100) : 0;
+
   render() {
-    const stat = { ...this.state };
-    const total = stat.bad + stat.good + stat.neutral;
-    const positivePercentage = total
-      ? Math.round((stat.good / total) * 100)
-      : 0;
+    const { good, neutral, bad } = this.state;
+    const total = this.countTotalFeedback(good, neutral, bad);
+    const positivePercentage = this.countPositiveFeedbackPercentage(
+      total,
+      good
+    );
 
     return (
       <div
@@ -41,18 +49,13 @@ class App extends Component {
             options={Object.keys(this.state)}
             onLeaveFeedback={this.onLeaveFeedback}
           ></FeedbackOptions>
-          {/* <FeedbackOptions
-            handleIncrementGood={this.handleIncrementGood}
-            handleIncrementNeutral={this.handleIncrementNeutral}
-            handleIncrementBad={this.handleIncrementBad}
-          /> */}
         </Section>
         <Section title={'Statistics'}>
           {total > 0 && (
             <Statistics
-              good={stat.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
+              good={good}
+              neutral={neutral}
+              bad={bad}
               total={total}
               positivePercentage={positivePercentage}
             />
